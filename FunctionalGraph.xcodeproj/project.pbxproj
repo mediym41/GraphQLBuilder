@@ -1,0 +1,349 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C11771EC251148BC00349C51 /* GraphQLFieldConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = C11771EB251148BC00349C51 /* GraphQLFieldConvertible.swift */; };
+		C14C9ACA250E57F400A0E378 /* GraphQLFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14C9AC9250E57F400A0E378 /* GraphQLFragment.swift */; };
+		C1AC03C7250D048100E08291 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AC03C6250D048100E08291 /* main.swift */; };
+		C1AC03DE250D06CC00E08291 /* GraphQLBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AC03CE250D04C600E08291 /* GraphQLBuilder.swift */; };
+		C1AC03DF250D06CC00E08291 /* GraphBuilderError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AC03CF250D04C600E08291 /* GraphBuilderError.swift */; };
+		C1AC03E0250D06CC00E08291 /* GraphQLOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AC03D0250D04C600E08291 /* GraphQLOperation.swift */; };
+		C1AC03E6250D06D200E08291 /* GraphQLVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AC03D8250D04C600E08291 /* GraphQLVariable.swift */; };
+		C1AC03E8250D06D400E08291 /* GraphQLField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AC03DB250D04C600E08291 /* GraphQLField.swift */; };
+		C1AC03EA250D06D400E08291 /* GraphQLParameterValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AC03DD250D04C600E08291 /* GraphQLParameterValue.swift */; };
+		C1FE1FC6250D808C008DB7EF /* GraphQLTypeDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FE1FC5250D808C008DB7EF /* GraphQLTypeDescription.swift */; };
+		C1FE1FC8250D8C16008DB7EF /* GraphQLBuilderConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FE1FC7250D8C16008DB7EF /* GraphQLBuilderConvertible.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C1AC03C1250D048100E08291 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		C11771EB251148BC00349C51 /* GraphQLFieldConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLFieldConvertible.swift; sourceTree = "<group>"; };
+		C14C9AC9250E57F400A0E378 /* GraphQLFragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLFragment.swift; sourceTree = "<group>"; };
+		C1AC03C3250D048100E08291 /* FunctionalGraph */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = FunctionalGraph; sourceTree = BUILT_PRODUCTS_DIR; };
+		C1AC03C6250D048100E08291 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		C1AC03CE250D04C600E08291 /* GraphQLBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLBuilder.swift; sourceTree = "<group>"; };
+		C1AC03CF250D04C600E08291 /* GraphBuilderError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphBuilderError.swift; sourceTree = "<group>"; };
+		C1AC03D0250D04C600E08291 /* GraphQLOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLOperation.swift; sourceTree = "<group>"; };
+		C1AC03D8250D04C600E08291 /* GraphQLVariable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLVariable.swift; sourceTree = "<group>"; };
+		C1AC03DB250D04C600E08291 /* GraphQLField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLField.swift; sourceTree = "<group>"; };
+		C1AC03DD250D04C600E08291 /* GraphQLParameterValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLParameterValue.swift; sourceTree = "<group>"; };
+		C1FE1FC5250D808C008DB7EF /* GraphQLTypeDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLTypeDescription.swift; sourceTree = "<group>"; };
+		C1FE1FC7250D8C16008DB7EF /* GraphQLBuilderConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLBuilderConvertible.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C1AC03C0250D048100E08291 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C1AC03BA250D048100E08291 = {
+			isa = PBXGroup;
+			children = (
+				C1AC03C5250D048100E08291 /* FunctionalGraph */,
+				C1AC03C4250D048100E08291 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C1AC03C4250D048100E08291 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C1AC03C3250D048100E08291 /* FunctionalGraph */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C1AC03C5250D048100E08291 /* FunctionalGraph */ = {
+			isa = PBXGroup;
+			children = (
+				C1AC03CD250D04C600E08291 /* Sources */,
+				C1AC03C6250D048100E08291 /* main.swift */,
+			);
+			path = FunctionalGraph;
+			sourceTree = "<group>";
+		};
+		C1AC03CD250D04C600E08291 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				C1AC03CE250D04C600E08291 /* GraphQLBuilder.swift */,
+				C1AC03CF250D04C600E08291 /* GraphBuilderError.swift */,
+				C1AC03D5250D04C600E08291 /* Components */,
+				C1AC03DA250D04C600E08291 /* Protocols */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		C1AC03D5250D04C600E08291 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				C1AC03D0250D04C600E08291 /* GraphQLOperation.swift */,
+				C1AC03DB250D04C600E08291 /* GraphQLField.swift */,
+				C14C9AC9250E57F400A0E378 /* GraphQLFragment.swift */,
+				C1AC03D8250D04C600E08291 /* GraphQLVariable.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		C1AC03DA250D04C600E08291 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				C1AC03DD250D04C600E08291 /* GraphQLParameterValue.swift */,
+				C1FE1FC5250D808C008DB7EF /* GraphQLTypeDescription.swift */,
+				C1FE1FC7250D8C16008DB7EF /* GraphQLBuilderConvertible.swift */,
+				C11771EB251148BC00349C51 /* GraphQLFieldConvertible.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C1AC03C2250D048100E08291 /* FunctionalGraph */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C1AC03CA250D048100E08291 /* Build configuration list for PBXNativeTarget "FunctionalGraph" */;
+			buildPhases = (
+				C1AC03BF250D048100E08291 /* Sources */,
+				C1AC03C0250D048100E08291 /* Frameworks */,
+				C1AC03C1250D048100E08291 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FunctionalGraph;
+			productName = FunctionalGraph;
+			productReference = C1AC03C3250D048100E08291 /* FunctionalGraph */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C1AC03BB250D048100E08291 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1170;
+				LastUpgradeCheck = 1170;
+				ORGANIZATIONNAME = "Дмитрий Пащенко";
+				TargetAttributes = {
+					C1AC03C2250D048100E08291 = {
+						CreatedOnToolsVersion = 11.7;
+					};
+				};
+			};
+			buildConfigurationList = C1AC03BE250D048100E08291 /* Build configuration list for PBXProject "FunctionalGraph" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = C1AC03BA250D048100E08291;
+			productRefGroup = C1AC03C4250D048100E08291 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C1AC03C2250D048100E08291 /* FunctionalGraph */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C1AC03BF250D048100E08291 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C1FE1FC8250D8C16008DB7EF /* GraphQLBuilderConvertible.swift in Sources */,
+				C1FE1FC6250D808C008DB7EF /* GraphQLTypeDescription.swift in Sources */,
+				C1AC03C7250D048100E08291 /* main.swift in Sources */,
+				C1AC03DE250D06CC00E08291 /* GraphQLBuilder.swift in Sources */,
+				C1AC03E8250D06D400E08291 /* GraphQLField.swift in Sources */,
+				C14C9ACA250E57F400A0E378 /* GraphQLFragment.swift in Sources */,
+				C1AC03E0250D06CC00E08291 /* GraphQLOperation.swift in Sources */,
+				C1AC03DF250D06CC00E08291 /* GraphBuilderError.swift in Sources */,
+				C11771EC251148BC00349C51 /* GraphQLFieldConvertible.swift in Sources */,
+				C1AC03E6250D06D200E08291 /* GraphQLVariable.swift in Sources */,
+				C1AC03EA250D06D400E08291 /* GraphQLParameterValue.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		C1AC03C8250D048100E08291 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		C1AC03C9250D048100E08291 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		C1AC03CB250D048100E08291 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		C1AC03CC250D048100E08291 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C1AC03BE250D048100E08291 /* Build configuration list for PBXProject "FunctionalGraph" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C1AC03C8250D048100E08291 /* Debug */,
+				C1AC03C9250D048100E08291 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C1AC03CA250D048100E08291 /* Build configuration list for PBXNativeTarget "FunctionalGraph" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C1AC03CB250D048100E08291 /* Debug */,
+				C1AC03CC250D048100E08291 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C1AC03BB250D048100E08291 /* Project object */;
+}
