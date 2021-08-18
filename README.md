@@ -628,4 +628,5 @@ mutation Product ($my_type: MyType) {
 - Добавить поддержку [GraphQL Meta Fields](https://graphql.org/learn/queries/#meta-fields)
 
 ## License
-(Дали будэ)
+
+GraphQLBuilder is released under the [MIT License](LICENSE).
