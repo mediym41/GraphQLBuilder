@@ -8,11 +8,12 @@
 
 import Foundation
 
-public final class GraphQLOperation {
+public final class GraphQLOperation: Encodable {
     
     public enum Kind: String {
         case query = "query"
         case mutation = "mutation"
+        case none = ""
     }
     
     let kind: Kind
@@ -29,6 +30,14 @@ public final class GraphQLOperation {
         self.fragments = fragments
     }
     
+    public init<Key: RawRepresentable>(kind: Kind = .query, alias: Key, variables: [GraphQLVariable] = [], fields: [GraphQLField] = [], fragments: [GraphQLFragment] = []) where Key.RawValue == String {
+        self.kind = kind
+        self.alias = alias.rawValue
+        self.variables = variables
+        self.fields = fields
+        self.fragments = fragments
+    }
+    
     public init(kind: Kind = .query, alias: String? = nil, @GraphQLFieldBuilder requestsBlock: () -> [GraphQLFieldConvertible]) {
         self.kind = kind
         self.alias = alias
@@ -37,16 +46,16 @@ public final class GraphQLOperation {
         self.fragments = []
         self.apply(items: requestsBlock())
     }
-
-    public init(kind: Kind = .query, alias: String? = nil, @GraphQLFieldBuilder requestBlock: () -> GraphQLFieldConvertible) {
+    
+    public init<Key: RawRepresentable>(kind: Kind = .query, alias: Key, @GraphQLFieldBuilder requestsBlock: () -> [GraphQLFieldConvertible]) where Key.RawValue == String {
         self.kind = kind
-        self.alias = alias
+        self.alias = alias.rawValue
         self.variables = []
         self.fields = []
         self.fragments = []
-        self.apply(items: [requestBlock()])
+        self.apply(items: requestsBlock())
     }
-    
+
     private func apply(items: [GraphQLFieldConvertible]) {
         for item in items {
             switch item {
@@ -58,6 +67,40 @@ public final class GraphQLOperation {
                 break
             }
         }
+    }
+    
+    // MARK: - Encoding
+    
+    enum CodingKeys: String, CodingKey {
+        case query
+        case operationName
+        case variables
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        let graphQLBuilderConfig = try fetchBuilderConfig(from: encoder.userInfo)
+        let encodedQueryString = try asGraphQLBuilderString(config: graphQLBuilderConfig)
+        try container.encode(encodedQueryString, forKey: .query)
+        
+        try container.encodeIfPresent(alias, forKey: .operationName)
+        
+        let variablesEncoder = container.superEncoder(forKey: .variables)
+        
+        for variable in variables {
+            try variable.encode(to: variablesEncoder)
+        }
+    }
+    
+    private func fetchBuilderConfig(from userInfo: [CodingUserInfoKey: Any]) throws -> GraphQLBuilderConfig {
+        let key: CodingUserInfoKey = try .makeGraphQLBuilderConfigKey()
+        
+        guard let config = userInfo[key] as? GraphQLBuilderConfig else {
+            throw GraphBuilderError.failedToFetchGraphQLBuilderConfig
+        }
+        
+        return config
     }
     
     // MARK: - Convenience methods for build query
@@ -87,28 +130,33 @@ public final class GraphQLOperation {
         self.fragments.append(contentsOf: fragments)
         return self
     }
+    
 }
 
 // MARK: - GraphQLBuilderConvertible protocol
 
 extension GraphQLOperation: GraphQLBuilderConvertible {
-    public var asGraphQLBuilderString: String {
+    public func asGraphQLBuilderString(config: GraphQLBuilderConfig = .default) throws -> String {
         var result = kind.rawValue
         
         if let alias = alias {
-            result += " \(alias)"
+            if kind != .none {
+                result += " "
+            }
+            
+            result += alias
         }
         
         if !variables.isEmpty {
-            result += " (\(variables.map { "$\($0.key): \($0.rawType)" }.joined(separator: ",")))"
+            result += "(\(variables.map { "$\($0.key):\($0.rawType)" }.joined(separator: ",")))"
         }
         
         let allFieldConvertible: [GraphQLFieldConvertible] = fields + fragments
         
-        result += " {\n\(allFieldConvertible.map { $0.asGraphQLFieldString }.joined(separator: "\n"))\n}"
+        result += "{\(try allFieldConvertible.map { try $0.asGraphQLFieldString(config: config) }.joined(separator: " "))}"
         
         if !fragments.isEmpty {
-            result += "\n\(fragments.map { $0.asGraphQLBuilderString }.joined(separator: "\n"))"
+            result += "\(try fragments.map { try $0.asGraphQLBuilderString(config: config) }.joined(separator: " "))"
         }
         
         return result
@@ -118,21 +166,31 @@ extension GraphQLOperation: GraphQLBuilderConvertible {
 // MARK: - Debug
 
 extension GraphQLOperation {
-    public func asPrettyGraphQLBuilderString(offset: Int = 2) -> String {
+    public func asPrettyGraphQLBuilderString(offset: Int = 2, config: GraphQLBuilderConfig = .default) throws -> String {
         var result = kind.rawValue
         
         if let alias = alias {
-            result += " \(alias)"
+            if kind != .none {
+                result += " "
+            }
+            
+            result += alias
         }
         
         if !variables.isEmpty {
             result += " (\(variables.map { "$\($0.key): \($0.rawType)" }.joined(separator: ", ")))"
         }
         
-        result += "{\n\(fields.map { $0.asPrettyGraphQLFieldString(level: 1, offset: offset) }.joined(separator: "\n"))\n}"
+        let encodedFields = try fields.map { field in
+            return try field.asPrettyGraphQLFieldString(level: 1, offset: offset, config: config)
+        }
+        result += " {\n\(encodedFields.joined(separator: "\n"))\n}"
         
         if !fragments.isEmpty {
-            result += "\n\n\(fragments.map { $0.asPrettyGraphQLBuilderString(level: 1, offset: offset) }.joined(separator: "\n\n"))"
+            let encodedFragments = try fragments.map { fragment in
+                return try fragment.asPrettyGraphQLBuilderString(level: 1, offset: offset, config: config)
+            }
+            result += "\n\n\(encodedFragments.joined(separator: "\n\n"))"
         }
         
         return result

@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 public final class GraphQLFragment {
     public let alias: String
     public let type: String
@@ -20,14 +19,6 @@ public final class GraphQLFragment {
         self.type = type
         self.fields = fields
         self.fragments = fragments
-    }
-    
-    public init(alias: String, on type: String, @GraphQLFieldBuilder subfieldBlock: () -> GraphQLFieldConvertible) {
-        self.alias = alias
-        self.type = type
-        self.fields = []
-        self.fragments = []
-        self.apply(items: [subfieldBlock()])
     }
     
     public init(alias: String, on type: String, @GraphQLFieldBuilder subfieldsBlock: () -> [GraphQLFieldConvertible]) {
@@ -56,7 +47,7 @@ public final class GraphQLFragment {
 
 extension GraphQLFragment: GraphQLFieldConvertible {
     
-    public var asGraphQLFieldString: String {
+    public func asGraphQLFieldString(config: GraphQLBuilderConfig = .default) throws -> String {
         return "...\(alias)"
     }
     
@@ -66,9 +57,10 @@ extension GraphQLFragment: GraphQLFieldConvertible {
 
 extension GraphQLFragment: GraphQLBuilderConvertible {
     
-    public var asGraphQLBuilderString: String {
+    public func asGraphQLBuilderString(config: GraphQLBuilderConfig = .default) throws -> String {
         let subfields: [GraphQLFieldConvertible] = fragments + fields
-        return "fragment \(alias) on \(type) {\n\(subfields.map { $0.asGraphQLFieldString }.joined(separator: "\n"))\n}"
+        let encodedSubfields = try subfields.map { try $0.asGraphQLFieldString(config: config) }
+        return "fragment \(alias) on \(type) {\(encodedSubfields.joined(separator: " "))}"
     }
     
 }
@@ -77,13 +69,18 @@ extension GraphQLFragment: GraphQLBuilderConvertible {
 
 extension GraphQLFragment {
     
-    func asPrettyGraphQLFieldString(level: Int = 0, offset: Int = 2) -> String {
-        return String(repeating: " ", count: level * offset) + asGraphQLFieldString
+    func asPrettyGraphQLFieldString(level: Int = 0, offset: Int = 2, config: GraphQLBuilderConfig = .default) throws -> String {
+        let encodedFieldString = try asGraphQLFieldString(config: config)
+        return String(repeating: " ", count: level * offset) + encodedFieldString
     }
     
-    func asPrettyGraphQLBuilderString(level: Int = 0, offset: Int = 2) -> String {
-        let fieldStrings = fields.map { $0.asPrettyGraphQLFieldString(level: level + 1, offset: offset) }
-        let fragmentStrings = fragments.map { $0.asPrettyGraphQLFieldString(level: level + 1, offset: offset) }
+    func asPrettyGraphQLBuilderString(level: Int = 0, offset: Int = 2, config: GraphQLBuilderConfig = .default) throws -> String {
+        let fieldStrings = try fields.map { field in
+            try field.asPrettyGraphQLFieldString(level: level + 1, offset: offset, config: config)
+        }
+        let fragmentStrings = try fragments.map { fragment in
+            try fragment.asPrettyGraphQLFieldString(level: level + 1, offset: offset, config: config)
+        }
         let allSubfieldsString = (fieldStrings + fragmentStrings).joined(separator: "\n")
         return "fragment \(alias) on \(type) {\n\(allSubfieldsString)\n}"
     }

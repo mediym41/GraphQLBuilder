@@ -7,5 +7,5 @@
 //
 
 public protocol GraphQLBuilderConvertible {
-    var asGraphQLBuilderString: String { get }
+    func asGraphQLBuilderString(config: GraphQLBuilderConfig) throws -> String 
 }
