@@ -8,6 +8,7 @@
 
 public protocol GraphQLFieldConvertible {
     func asGraphQLFieldString(config: GraphQLBuilderConfig) throws -> String
+    func asPrettyGraphQLFieldString(level: Int, offset: Int, config: GraphQLBuilderConfig) throws -> String
 }
 
 @resultBuilder

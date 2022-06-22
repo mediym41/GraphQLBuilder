@@ -6,7 +6,7 @@
 //
 
 @testable
-import GraphQLBuilderKit
+import GraphQLBuilderKit_v2
 import XCTest
 
 class GraphQLOperationTests: XCTestCase {
@@ -57,13 +57,13 @@ class GraphQLOperationTests: XCTestCase {
             GraphQLVariable(key: "key2", value: EncodableVariable(), rawType: EncodableVariable.self)
         ]
         
-        let fragment1 = GraphQLFragment(alias: "frag1", on: "Fragment1", subfieldsBlock: {
+        let fragment1 = GraphQLFragment(alias: "frag1", on: "Fragment1", fieldsBlock: {
             GraphQLField(name: "foo")
                 .with(arguments: ["key": 200])
             GraphQLField(name: "bar")
         })
         
-        let fragment2 = GraphQLFragment(alias: "frag2", on: "Fragment2", subfieldsBlock: {
+        let fragment2 = GraphQLFragment(alias: "frag2", on: "Fragment2", fieldsBlock: {
             GraphQLField("some_key")
             fragment1
         })
@@ -168,7 +168,8 @@ class GraphQLOperationTests: XCTestCase {
             .trimmingCharacters(in: .whitespaces)
         
         // static part
-        XCTAssertEqual(result, "...frag2} another_root{node3 ...frag1} ...frag1 ...frag2}fragment frag1 on Fragment1 {foo(key:200) bar} fragment frag2 on Fragment2 {...frag1 some_key}")
+
+        XCTAssertEqual(result, "...frag2} another_root{...frag1 node3} ...frag1 ...frag2}fragment frag1 on Fragment1 {foo(key:200) bar} fragment frag2 on Fragment2 {some_key ...frag1}")
     }
     
 }

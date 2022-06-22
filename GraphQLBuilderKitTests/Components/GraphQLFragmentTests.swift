@@ -6,7 +6,7 @@
 //
 
 @testable
-import GraphQLBuilderKit
+import GraphQLBuilderKit_v2
 import XCTest
 
 class GraphQLFragmentTests: XCTestCase {
@@ -35,11 +35,13 @@ class GraphQLFragmentTests: XCTestCase {
     }
     
     func testFragmentAsBuiderString() throws {
-        let sut = GraphQLFragment(alias: "foo", on: "bar", subfieldsBlock: {
+        let sut = GraphQLFragment(alias: "foo", on: "bar", fieldsBlock: {
             GraphQLField(name: "first")
             GraphQLField(name: "second") {
                 GraphQLField(name: "third")
-                GraphQLFragment(alias: "subFoo", on: "subBar", fields: ["subFirst"])
+                GraphQLFragment(alias: "subFoo", on: "subBar", fields: [
+                    GraphQLField(name: "subFirst")
+                ])
             }
         })
         
@@ -49,11 +51,13 @@ class GraphQLFragmentTests: XCTestCase {
     }
     
     func testFragmentAsBuiderStringViaResultBuilder() throws {
-        let sut = GraphQLFragment(alias: "foo", on: "bar", subfieldsBlock: {
+        let sut = GraphQLFragment(alias: "foo", on: "bar", fieldsBlock: {
             GraphQLField(name: "first")
             GraphQLField(name: "second") {
                 GraphQLField(name: "third")
-                GraphQLFragment(alias: "subFoo", on: "subBar", fields: ["subFirst"])
+                GraphQLFragment(alias: "subFoo", on: "subBar", fields: [
+                    GraphQLField(name: "subFirst")
+                ])
             }
         })
         
@@ -63,11 +67,13 @@ class GraphQLFragmentTests: XCTestCase {
     }
 
     func testFragmentAsBuilderStringDebugAndReleaseEquation() throws {
-        let sut = GraphQLFragment(alias: "foo", on: "bar", subfieldsBlock: {
+        let sut = GraphQLFragment(alias: "foo", on: "bar", fieldsBlock: {
             GraphQLField(name: "first")
             GraphQLField(name: "second") {
                 GraphQLField(name: "third")
-                GraphQLFragment(alias: "subFoo", on: "subBar", fields: ["subFirst"])
+                GraphQLFragment(alias: "subFoo", on: "subBar", fields: [
+                    GraphQLField(name:"subFirst")
+                ])
             }
         })
         
@@ -83,11 +89,13 @@ class GraphQLFragmentTests: XCTestCase {
     }
     
     func testFragmentAsFieldStringDebugAndReleaseEquation() throws {
-        let sut = GraphQLFragment(alias: "foo", on: "bar", subfieldsBlock: {
+        let sut = GraphQLFragment(alias: "foo", on: "bar", fieldsBlock: {
             GraphQLField(name: "first")
             GraphQLField(name: "second") {
                 GraphQLField(name: "third")
-                GraphQLFragment(alias: "subFoo", on: "subBar", fields: ["subFirst"])
+                GraphQLFragment(alias: "subFoo", on: "subBar", fields: [
+                    GraphQLField(name: "subFirst")
+                ])
             }
         })
         

@@ -98,6 +98,8 @@ For projects using a `.xcodeproj` the best method is to navigate to `File > Swif
         * [Optionals](#optionals)
    * [Alias](#alias)
    * [Fragments](#fragments)
+   * [Inline Fragments](#inline-fragments)
+   * [Meta Fields](#meta-fields)
    * [Operation Name](#operation-name)
    * [Variables](#variables)
    * [Directives](#directives)
@@ -371,6 +373,80 @@ fragment BaseEpisode on Episode {
 }
 ```
 
+### Inline Fragments
+
+[GraphQL Inline Fragments](https://graphql.org/learn/queries/#inline-fragments)
+
+If you are querying a field that returns an interface or a union type, you will need to use `GraphQLInlineFragment` to access data on the underlying concrete type. 
+
+##### Swift
+```swift
+GraphQLOperation(kind: .query, alias: "HeroForEpisode") {
+    GraphQLField(name: "hero") {
+        GraphQLField(name: "name")
+        GraphQLInlineFragment(on: "Droid") {
+            GraphQLField(name: "primaryFunction")
+        }
+        GraphQLInlineFragment(on: "Human") {
+            GraphQLField(name: "height")
+        }
+    }
+}
+```
+
+##### GraphQL Query
+```graphql
+query HeroForEpisode {
+  hero {
+    name
+    ... on Droid {
+      primaryFunction
+    }
+    ... on Human {
+      height
+    }
+  }
+} 
+```
+
+### Meta Fields
+
+[GraphQL Meta Fields](https://graphql.org/learn/queries/#meta-fields)
+
+Given that there are some situations where you don't know what type you'll get back from the GraphQL service, you need some way to determine how to handle that data on the client. GraphQL allows you to request __typename, a meta field, at any point in a query to get the name of the object type at that point.
+
+##### Swift
+```swift
+GraphQLOperation(kind: .query, alias: "Search") {
+    GraphQLField.typename
+    GraphQLInlineFragment(on: "Human") {
+        GraphQLField(name: "name")
+    }
+    GraphQLInlineFragment(on: "Droid") {
+        GraphQLField(name: "name")
+    }
+    GraphQLInlineFragment(on: "Starship") {
+        GraphQLField(name: "name")
+    }
+}
+```
+
+##### GraphQL Query
+```graphql
+query Search {
+  __typename
+  ... on Human {
+    name
+  }
+  ... on Droid {
+    name
+  }
+  ... on Starship {
+    name
+  }
+}  
+```
+
 ### Operation Name
 
 [GraphQL Operation Name](https://graphql.org/learn/queries/#operation-name)
@@ -624,9 +700,6 @@ mutation Product ($my_type: MyType) {
 ## TODO List
 - Добавить тесты в виде запросов на существующие GraphQL Api
 - Добавить встроенную [пагинацию](https://graphql.org/learn/pagination/)
-- Добавить поддержку [GraphQL Inline Fragments](https://graphql.org/learn/queries/#inline-fragments)
-- Добавить поддержку [GraphQL Meta Fields](https://graphql.org/learn/queries/#meta-fields)
 
 ## License
-
-GraphQLBuilder is released under the [MIT License](LICENSE).
+(Дали будэ)

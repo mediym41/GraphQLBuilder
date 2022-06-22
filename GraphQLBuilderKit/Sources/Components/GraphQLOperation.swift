@@ -19,10 +19,10 @@ public final class GraphQLOperation: Encodable {
     let kind: Kind
     let alias: String?
     var variables: [GraphQLVariable]
-    var fields: [GraphQLField]
+    var fields: [GraphQLFieldConvertible]
     var fragments: [GraphQLFragment]
     
-    public init(kind: Kind = .query, alias: String? = nil, variables: [GraphQLVariable] = [], fields: [GraphQLField] = [], fragments: [GraphQLFragment] = []) {
+    public init(kind: Kind = .query, alias: String? = nil, variables: [GraphQLVariable] = [], fields: [GraphQLFieldConvertible] = [], fragments: [GraphQLFragment] = []) {
         self.kind = kind
         self.alias = alias
         self.variables = variables
@@ -30,7 +30,7 @@ public final class GraphQLOperation: Encodable {
         self.fragments = fragments
     }
     
-    public init<Key: RawRepresentable>(kind: Kind = .query, alias: Key, variables: [GraphQLVariable] = [], fields: [GraphQLField] = [], fragments: [GraphQLFragment] = []) where Key.RawValue == String {
+    public init<Key: RawRepresentable>(kind: Kind = .query, alias: Key, variables: [GraphQLVariable] = [], fields: [GraphQLFieldConvertible] = [], fragments: [GraphQLFragment] = []) where Key.RawValue == String {
         self.kind = kind
         self.alias = alias.rawValue
         self.variables = variables
@@ -38,35 +38,20 @@ public final class GraphQLOperation: Encodable {
         self.fragments = fragments
     }
     
-    public init(kind: Kind = .query, alias: String? = nil, @GraphQLFieldBuilder requestsBlock: () -> [GraphQLFieldConvertible]) {
+    public init(kind: Kind = .query, alias: String? = nil, @GraphQLFieldBuilder fieldsBlock: () -> [GraphQLFieldConvertible]) {
         self.kind = kind
         self.alias = alias
         self.variables = []
-        self.fields = []
+        self.fields = fieldsBlock()
         self.fragments = []
-        self.apply(items: requestsBlock())
     }
     
-    public init<Key: RawRepresentable>(kind: Kind = .query, alias: Key, @GraphQLFieldBuilder requestsBlock: () -> [GraphQLFieldConvertible]) where Key.RawValue == String {
+    public init<Key: RawRepresentable>(kind: Kind = .query, alias: Key, @GraphQLFieldBuilder fieldsBlock: () -> [GraphQLFieldConvertible]) where Key.RawValue == String {
         self.kind = kind
         self.alias = alias.rawValue
         self.variables = []
-        self.fields = []
+        self.fields = fieldsBlock()
         self.fragments = []
-        self.apply(items: requestsBlock())
-    }
-
-    private func apply(items: [GraphQLFieldConvertible]) {
-        for item in items {
-            switch item {
-            case let field as GraphQLField:
-                fields.append(field)
-            case let fragment as GraphQLFragment:
-                fragments.append(fragment)
-            default:
-                break
-            }
-        }
     }
     
     // MARK: - Encoding
@@ -121,7 +106,7 @@ public final class GraphQLOperation: Encodable {
         return self
     }
     
-    @discardableResult public func with(fields: [GraphQLField]) -> Self {
+    @discardableResult public func with(fields: [GraphQLFieldConvertible]) -> Self {
         self.fields.append(contentsOf: fields)
         return self
     }
@@ -161,11 +146,9 @@ extension GraphQLOperation: GraphQLBuilderConvertible {
         
         return result
     }
-}
 
-// MARK: - Debug
-
-extension GraphQLOperation {
+    // MARK: Debug
+    
     public func asPrettyGraphQLBuilderString(offset: Int = 2, config: GraphQLBuilderConfig = .default) throws -> String {
         var result = kind.rawValue
         

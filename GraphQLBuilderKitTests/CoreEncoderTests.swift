@@ -6,7 +6,7 @@
 //
 
 @testable
-import GraphQLBuilderKit
+import GraphQLBuilderKit_v2
 import XCTest
 
 extension ContainerResult {

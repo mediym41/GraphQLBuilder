@@ -6,10 +6,14 @@
 //
 
 import Foundation
-import GraphQLBuilderKit
+import GraphQLBuilderKit_v2
 
 let variable = GraphQLVariable(key: "filters", value: ["is_new", "top_sale"])
 
+let fragment = GraphQLFragment(alias: "MyFragment", on: "Company") {
+    GraphQLField(name: "id")
+    GraphQLField(name: "title")
+}
 let operation = GraphQLOperation(kind: .query, alias: "Products") {
     GraphQLField(name: "category_listing") {
         GraphQLField(name: "info") {
@@ -22,6 +26,10 @@ let operation = GraphQLOperation(kind: .query, alias: "Products") {
             GraphQLField(name: "url_image")
                 .with(arguments: ["size": 200])
         }
+        GraphQLField.typename
+        GraphQLInlineFragment(on: "Reviews") {
+            GraphQLField(name: "count")
+        }
         GraphQLField(name: "products") {
             GraphQLField(name: "id")
             GraphQLField(name: "title")
@@ -30,7 +38,10 @@ let operation = GraphQLOperation(kind: .query, alias: "Products") {
                 .with(arguments: ["size": 250])
         }
     }.with(variables: ["listing_filters": variable])
-}.with(variables: [variable])
+    fragment
+}
+.with(variables: [variable])
+.with(fragments: [fragment])
 
 let graphQLQuery = try operation.asPrettyGraphQLBuilderString()
 print("=== GraphQL Query === ")

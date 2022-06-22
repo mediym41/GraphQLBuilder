@@ -6,7 +6,7 @@
 //
 
 @testable
-import GraphQLBuilderKit
+import GraphQLBuilderKit_v2
 import XCTest
 
 class GraphQLFieldTests: XCTestCase {
@@ -168,7 +168,7 @@ class GraphQLFieldTests: XCTestCase {
                 ].asEncodable
         ])
         .with(variables: ["var1": GraphQLVariable(key: "var1", value: "val3", rawType: "String")])
-        .with(fragments: [fragment])
+        .with(fields: [fragment])
      
         let result1 = try sut.asGraphQLFieldString()
             .preparedForCompare()

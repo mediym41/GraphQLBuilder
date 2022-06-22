@@ -10,39 +10,38 @@ import Foundation
 
 public final class GraphQLField {
     
+    public static var typename: GraphQLField {
+        return .init(name: "__typename")
+    }
+    
     let name: String
     let alias: String?
     var variables: [String: GraphQLVariable]
     var arguments: [String: Encodable]
-    var fields: [GraphQLField]
-    var fragments: [GraphQLFragment]
+    var fields: [GraphQLFieldConvertible]
     
     public init(name: String,
                 alias: String? = nil,
                 variables: [String: GraphQLVariable] = [:],
                 arguments: [String: Encodable] = [:],
-                fields: [GraphQLField] = [],
-                fragments: [GraphQLFragment] = []) {
+                fields: [GraphQLFieldConvertible] = []) {
         self.name = name
         self.alias = alias
         self.variables = variables
         self.arguments = arguments
         self.fields = fields
-        self.fragments = fragments
     }
     
     public init<Key: RawRepresentable>(name: Key,
                                        alias: String? = nil,
                                        variables: [String: GraphQLVariable] = [:],
                                        arguments: [String: Encodable] = [:],
-                                       fields: [GraphQLField] = [],
-                                       fragments: [GraphQLFragment] = []) where Key.RawValue == String {
+                                       fields: [GraphQLFieldConvertible] = []) where Key.RawValue == String {
         self.name = name.rawValue
         self.alias = alias
         self.variables = variables
         self.arguments = arguments
         self.fields = fields
-        self.fragments = fragments
     }
     
     // declarative ui
@@ -50,56 +49,32 @@ public final class GraphQLField {
                 alias: String? = nil,
                 variables: [String: GraphQLVariable] = [:],
                 arguments: [String: Encodable] = [:],
-                @GraphQLFieldBuilder subfieldsBlock: () -> [GraphQLFieldConvertible]) {
+                @GraphQLFieldBuilder fieldsBlock: () -> [GraphQLFieldConvertible]) {
         self.name = name
         self.alias = alias
         self.variables = variables
         self.arguments = arguments
-        self.fields = []
-        self.fragments = []
-        self.apply(items: subfieldsBlock())
+        self.fields = fieldsBlock()
     }
     
     public init<Key: RawRepresentable>(name: Key,
                                        alias: String? = nil,
                                        variables: [String: GraphQLVariable] = [:],
                                        arguments: [String: Encodable] = [:],
-                                       @GraphQLFieldBuilder subfieldsBlock: () -> [GraphQLFieldConvertible]) where Key.RawValue == String {
+                                       @GraphQLFieldBuilder fieldsBlock: () -> [GraphQLFieldConvertible]) where Key.RawValue == String {
         self.name = name.rawValue
         self.alias = alias
         self.variables = variables
         self.arguments = arguments
-        self.fields = []
-        self.fragments = []
-        self.apply(items: subfieldsBlock())
-    }
-    
-    private func apply(items: [GraphQLFieldConvertible]) {
-        for item in items {
-            switch item {
-            case let field as GraphQLField:
-                fields.append(field)
-            case let fragment as GraphQLFragment:
-                fragments.append(fragment)
-            default:
-                break
-            }
-        }
+        self.fields = fieldsBlock()
     }
     
     // MARK: - Convenience methods for build query
             
     // MARK: Fields
     
-    @discardableResult public func with(fields: [GraphQLField]) -> Self {
+    @discardableResult public func with(fields: [GraphQLFieldConvertible]) -> Self {
         self.fields.append(contentsOf: fields)
-        return self
-    }
-    
-    // MARK: Fragments
-    
-    @discardableResult public func with(fragments: [GraphQLFragment]) -> Self {
-        self.fragments.append(contentsOf: fragments)
         return self
     }
     
@@ -170,26 +145,14 @@ extension GraphQLField: GraphQLFieldConvertible {
             result += "(\(parametersList.joined(separator: ",")))"
         }
         
-        if !fields.isEmpty || !fragments.isEmpty   {
-            let allSubfields: [GraphQLFieldConvertible] = fields + fragments
-            result += "{\(try allSubfields.map { try $0.asGraphQLFieldString(config: config) }.joined(separator: " "))}"
+        if !fields.isEmpty {
+            result += "{\(try fields.map { try $0.asGraphQLFieldString(config: config) }.joined(separator: " "))}"
         }
         
         return result
     }
-}
-
-// MARK: - ExpressibleByStringLiteral
-
-extension GraphQLField: ExpressibleByStringLiteral {
-    public convenience init(stringLiteral value: String) {
-        self.init(name: value)
-    }
-}
-
-// MARK: - Debug
-
-extension GraphQLField {
+    
+    // MARK: - Debug
     
     public func asPrettyGraphQLFieldString(level: Int = 0, offset: Int = 2, config: GraphQLBuilderConfig = .default) throws -> String {
     
@@ -233,18 +196,21 @@ extension GraphQLField {
             result += "(\(parametersList.joined(separator: ", ")))"
         }
         
-        if !fields.isEmpty || !fragments.isEmpty   {
-            let fieldStrings = try fields.map { field in
+        if !fields.isEmpty {
+            let fieldsString = try fields.map { field in
                 try field.asPrettyGraphQLFieldString(level: level + 1, offset: offset, config: config)
-            }
-            let fragmentStrings = try fragments.map { fragment in
-                try fragment.asPrettyGraphQLFieldString(level: level + 1, offset: offset, config: config)
-            }
-            let allSubfieldsStirng = (fieldStrings + fragmentStrings).joined(separator: "\n")
-            result += " {\n\(allSubfieldsStirng)\n\(currentOffset)}"
+            }.joined(separator: "\n")
+            result += " {\n\(fieldsString)\n\(currentOffset)}"
         }
         
         return result
     }
+}
 
+// MARK: - ExpressibleByStringLiteral
+
+extension GraphQLField: ExpressibleByStringLiteral {
+    public convenience init(stringLiteral value: String) {
+        self.init(name: value)
+    }
 }
