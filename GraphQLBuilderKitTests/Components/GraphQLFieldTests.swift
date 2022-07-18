@@ -6,7 +6,7 @@
 //
 
 @testable
-import GraphQLBuilderKit_v2
+import GraphQLBuilderKit
 import XCTest
 
 class GraphQLFieldTests: XCTestCase {
@@ -55,7 +55,9 @@ class GraphQLFieldTests: XCTestCase {
     }
     
     func testArguments() throws {
+        let nilValue: Int? = nil
         let sut = GraphQLField(name: "foo", arguments: [
+            "optional": nilValue.wrapOrNull,
             "integer": 1,
             "double": 0.5,
             "bool": false,
@@ -76,6 +78,7 @@ class GraphQLFieldTests: XCTestCase {
     
         let arguments = Set(result[firstIndex..<lastIndex].components(separatedBy: ","))
         XCTAssertEqual(arguments, [
+            "optional:null",
             "integer:1",
             "string:\"text\"",
             "double:0.5",

@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import GraphQLBuilderKit_v2
+import GraphQLBuilderKit
 
 let variable = GraphQLVariable(key: "filters", value: ["is_new", "top_sale"])
 
@@ -40,8 +40,6 @@ let operation = GraphQLOperation(kind: .query, alias: "Products") {
     }.with(variables: ["listing_filters": variable])
     fragment
 }
-.with(variables: [variable])
-.with(fragments: [fragment])
 
 let graphQLQuery = try operation.asPrettyGraphQLBuilderString()
 print("=== GraphQL Query === ")

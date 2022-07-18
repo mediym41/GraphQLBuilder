@@ -1,6 +1,6 @@
 //
 //  GraphQLInlineFragment.swift
-//  GraphQLBuilderKit_v2
+//  GraphQLBuilderKit
 //
 //  Created by Дмитрий Пащенко on 22.06.2022.
 //

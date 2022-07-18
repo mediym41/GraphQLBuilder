@@ -212,7 +212,7 @@ query CharactersRequest {
 }
 ```
 
-Если Вы используете передачу параметров через аргументы и у Вас разные типы значений в литерале словаря, то компилятор Swift-а определить Ваш словарь как `[String: Any]`, по-этому стоит ему помочь вызвав вычисляемое свойство asEncodable. Все значения Вашего словаря должен реализовывать протокол Encodable.
+Если Вы используете передачу параметров через аргументы и у Вас разные типы значений в литерале словаря, то компилятор Swift-а определит Ваш словарь как `[String: Any]`, по-этому стоит ему помочь вызвав вычисляемое свойство asEncodable. Все значения Вашего словаря должен реализовывать протокол Encodable.
 
 ```swift
 // ...
@@ -231,7 +231,7 @@ query CharactersRequest {
 
 #### Optionals
 
-По-умолчанию опцональные значения аргументов со значением nil не будут вставляться в GraphQL запрос. Данный функционал добавлен в систему как конфиг в `GraphQLValueEncoder` и `CoreEncoder.Config`, если кому-то понадобиться такая надстройка - добавлю в следующей версии.
+По-умолчанию опцональные значения аргументов со значением nil не будут вставляться в GraphQL запрос. Чтоб опциональные значения аргументов со значением nil вставлялись в GraphQL запрос, нужно вызвать свойство `wrapOrNil` у вашего опционального значения.
 
 ```swift
 GraphQLOperation(kind: .query, alias: "CharactersRequest") {
@@ -254,8 +254,11 @@ GraphQLOperation(kind: .query, alias: "CharactersRequest") {
             "filters": [
                 "status": "Alive",
                 "gender": "Female",
-                "type": nil
-            ]
+                "optional": Optional<Int>.none,
+                "force_optional": Optional<Int>.none.wrapOrNull
+            ].asEncodable,
+            "optional": Optional<Int>.none,
+            "force_optional": Optional<Int>.none.wrapOrNull,
     ])
 }
 ```
@@ -263,7 +266,7 @@ GraphQLOperation(kind: .query, alias: "CharactersRequest") {
 ##### GraphQL Query
 ```graphql
 query CharactersRequest {
-  characters(filter: $character_filter, page: 2, filters: {status: "Alive",gender: "Female"}) {
+  characters(filters: {status: "Alive",gender: "Female",force_optional: null}, page: 2, force_optional: null) {
     info {
       count
       pages
@@ -277,7 +280,7 @@ query CharactersRequest {
       type
     }
   }
-}
+} 
 ```
 ### Alias
 

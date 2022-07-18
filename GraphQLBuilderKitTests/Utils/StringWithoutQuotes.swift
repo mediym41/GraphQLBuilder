@@ -6,7 +6,7 @@
 //
 
 @testable
-import GraphQLBuilderKit_v2
+import GraphQLBuilderKit
 
 /// Special type for flexible encoding string literals, used only for tests
 public struct StringWithoutQuotes: Encodable {
